@@ -13,18 +13,18 @@ class ucpconfig::master(
   $ucp_license_file              = $ucpconfig::ucp_license_file,
 
 ) {
-  
+
 file {'/root/.docker/':
   ensure => directory
-  } ->  
-  
+  } ->
+
 file { '/root/.docker/config.json':
   ensure  => present,
   content => template('ucpconfig/config.json.erb'),
-  } ->   
+  } ->
 
 
-class { 'docker_ucp':
+class { 'docker_ddc':
   controller                => true,
   host_address              => $ucp_host_address,
   version                   => $ucp_version,
@@ -36,13 +36,13 @@ class { 'docker_ucp':
   external_ca               => $ucp_external_ca,
   swarm_scheduler           => $ucp_swarm_scheduler,
   swarm_port                => $ucp_swarm_port,
-  controller_port           => $ucp_controller_port, 
+  controller_port           => $ucp_controller_port,
   preserve_certs            => $ucp_preserve_certs,
   docker_socket_path        => '/var/run/docker.sock',
   license_file              => $ucp_license_file,
   require                   => Class['docker']
   } ->
-  
+
   file { '/etc/etcd':
     ensure => directory,
   } ->

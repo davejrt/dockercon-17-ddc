@@ -21,16 +21,16 @@ Facter.add('swarm_token') do
       }
 
       response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
-	        http.request(request)	    
+	        http.request(request)
         end
       data = JSON.parse(response.body)['auth_token']
       return data
     end
 
     def swarm_token
-      uri = URI.parse("https://172.17.10.101/v1.24/swarm")
+      uri = URI.parse("https://172.17.10.101/v1.30/swarm")
       request = Net::HTTP::Get.new(uri.to_s)
-      request["Authorization"] = "#{auth_token}"
+      request["Authorization"] = "Bearer #{auth_token}"
 
       req_options = {
 	        use_ssl: uri.scheme == "https",
@@ -41,9 +41,9 @@ Facter.add('swarm_token') do
  	        http.request(request)
         end
       data = JSON.parse(response.body)['JoinTokens']['Worker']
-  
+
       return data
     end
    swarm_token
   end
-end  
+end

@@ -1,5 +1,5 @@
 class ucpconfig::config (
-  
+
   $ucp_url               = $ucpconfig::ucp_url,
   $ucp_username          = $ucpconfig::ucp_username,
   $ucp_password          = $ucpconfig::ucp_password,
@@ -44,5 +44,5 @@ class ucpconfig::config (
       }
   default: { notify {"Docker network can not be create on ${::hostname}":} }
 
-    }  
-}           
+    }
+}

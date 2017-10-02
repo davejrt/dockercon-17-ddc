@@ -43,7 +43,7 @@
 # Copyright 2016 Your name here, unless otherwise noted.
 #
 class ucpconfig (
-  
+
   $ucp_master                    = $ucpconfig::params::ucp_master,
   $ucp_deploy_node               = $ucpconfig::params::ucp_deploy_node,
   $ucp_url                       = $ucpconfig::params::ucp_url,
@@ -70,7 +70,7 @@ class { 'docker':
    package_source_location => '[arch=amd64] https://storebits.docker.com/ee/ubuntu/sub-43b947b7-d00f-4a95-840a-c4bbfc60a6b5',
    package_key_source      => 'https://storebits.docker.com/ee/ubuntu/sub-43b947b7-d00f-4a95-840a-c4bbfc60a6b5/gpg',
    package_key             => 'DD911E995A64A202E85907D6BC14F10B6D085F96',
-   package_repos           => 'stable-17.03',
+   package_repos           => 'stable-17.06',
    package_release         => 'trusty',
    tcp_bind                => 'tcp://127.0.0.1:4243',
    socket_bind             => 'unix:///var/run/docker.sock',
@@ -83,17 +83,17 @@ class {'docker::compose':
 
 case $::hostname {
   $ucp_master: {
-      
+
     include ucpconfig::master
     include ucpconfig::config
     contain ucpconfig::master
     contain ucpconfig::config
 
-    Class['ucpconfig::master'] -> Class['ucpconfig::config'] 
+    Class['ucpconfig::master'] -> Class['ucpconfig::config']
   }
 
   $ucp_deploy_node: {
-    
+
      include ucpconfig::node
      include ucpconfig::config
      include ucpconfig::compose
@@ -101,18 +101,18 @@ case $::hostname {
      contain ucpconfig::config
      contain ucpconfig::compose
 
-     Class['ucpconfig::config'] ->  Class['ucpconfig::node'] -> Class['ucpconfig::compose'] 
+     Class['ucpconfig::config'] ->  Class['ucpconfig::node'] -> Class['ucpconfig::compose']
   }
 
   default: {
-    
+
     include ucpconfig::node
     include ucpconfig::config
     contain ucpconfig::node
     contain ucpconfig::config
-    
 
-    Class['ucpconfig::config'] ->  Class['ucpconfig::node'] #-> Class['docker_ucp::dtr']
+
+    Class['ucpconfig::config'] ->  Class['ucpconfig::node'] #-> Class['docker_ddc::dtr']
     }
   }
 }

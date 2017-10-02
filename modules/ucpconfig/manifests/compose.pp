@@ -32,7 +32,7 @@ class ucpconfig::compose {
     require => [ Class['ucpconfig::config'], Exec['docker-compose-interlock']]
     }
  
-  docker_ucp::dtr {'Dtr install':
+  docker_ddc::dtr {'Dtr install':
     install => true,
     dtr_version => 'latest',
     dtr_external_url => 'https://172.17.10.104',
@@ -44,7 +44,7 @@ class ucpconfig::compose {
     require => [ Class['ucpconfig::config'], Exec['docker-compose-interlock']] 
     } ->
    
-  docker_ucp::dtr {'Dtr join':
+  docker_ddc::dtr {'Dtr join':
     join => true,
     dtr_version => 'latest',
     dtr_external_url => 'https://172.17.10.102',
